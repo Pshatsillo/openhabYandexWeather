@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="yandexweather"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<thing-type id="yandexweather">
+
+			<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			</supported-bridge-type-refs>
+
+		<label>YandexWeather Binding Thing</label>
+		<description>Sample thing for YandexWeather Binding</description>
+
+		<channels>
+			<channel id="datetime" typeId="datetime-channel"/>
+		</channels>
+
+		<config-description>
+			<parameter name="location" type="text" required="true">
+				<context>location</context>
+				<label>Location</label>
+				<description>Location</description>
+			</parameter>
+		</config-description>
+	</thing-type>
+
+	<channel-type id="datetime-channel">
+		<item-type>DateTime</item-type>
+		<label>Last request Time</label>
+		<description>Time of data request.</description>
+		<category>Time</category>
+		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+</thing:thing-descriptions>
