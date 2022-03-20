@@ -12,8 +12,12 @@
  */
 package org.openhab.binding.yandexweather.internal;
 
-import handler.YandexWeatherHandler;
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 /**
  * The {@link YandexWeatherJsonParser} is responsible for Yandex API parsing, which are
@@ -23,8 +27,15 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
  */
 @NonNullByDefault
 public class YandexWeatherJsonParser {
+    private final Logger logger = LoggerFactory.getLogger(YandexWeatherJsonParser.class);
 
     public YandexWeatherJsonParser(String response) {
+        JsonElement json = JsonParser.parseString(response);
+        logger.debug("json - > {}", json);
+    }
 
+    @Override
+    public String toString() {
+        return "OK";
     }
 }

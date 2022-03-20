@@ -6,9 +6,9 @@
 
 	<thing-type id="yandexweather">
 
-			<supported-bridge-type-refs>
-			<bridge-type-ref id="bridge" />
-			</supported-bridge-type-refs>
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge"/>
+		</supported-bridge-type-refs>
 
 		<label>YandexWeather Binding Thing</label>
 		<description>Sample thing for YandexWeather Binding</description>

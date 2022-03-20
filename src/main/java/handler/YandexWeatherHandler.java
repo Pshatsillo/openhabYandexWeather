@@ -14,22 +14,13 @@ package handler;
 
 import static org.openhab.binding.yandexweather.internal.YandexWeatherBindingConstants.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.openhab.binding.yandexweather.internal.YandexWeatherConfiguration;
-import org.openhab.binding.yandexweather.internal.YandexWeatherJsonParser;
+import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
-import org.openhab.core.thing.ThingStatus;
 import org.openhab.core.thing.binding.BaseThingHandler;
+import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.slf4j.Logger;
@@ -44,7 +35,10 @@ import org.slf4j.LoggerFactory;
 @NonNullByDefault
 public class YandexWeatherHandler extends BaseThingHandler {
     private final Logger logger = LoggerFactory.getLogger(YandexWeatherHandler.class);
-    private @Nullable YandexWeatherJsonParser parser;
+    @Nullable
+    YandexWeatherBridgeHandler bridgeDeviceHandler;
+    // private @Nullable YandexWeatherJsonParser parser;
+
     public YandexWeatherHandler(Thing thing) {
         super(thing);
     }
@@ -60,8 +54,32 @@ public class YandexWeatherHandler extends BaseThingHandler {
 
     @Override
     public void initialize() {
-
+        logger.debug("init");
+        bridgeDeviceHandler = getBridgeHandler();
+        if (bridgeDeviceHandler != null) {
+            // registerMegadPortsListener(bridgeDeviceHandler);
+        } else {
+            logger.debug("Can't register {} at bridge. BridgeHandler is null.", this.getThing().getUID());
+        }
     }
 
+    private synchronized @Nullable YandexWeatherBridgeHandler getBridgeHandler() {
+        Bridge bridge = getBridge();
+        if (bridge == null) {
+            logger.error("Required bridge not defined for device.");
+            return null;
+        } else {
+            return getBridgeHandler(bridge);
+        }
+    }
 
+    private synchronized @Nullable YandexWeatherBridgeHandler getBridgeHandler(Bridge bridge) {
+        ThingHandler handler = bridge.getHandler();
+        if (handler instanceof YandexWeatherBridgeHandler) {
+            return (YandexWeatherBridgeHandler) handler;
+        } else {
+            logger.debug("No available bridge handler found yet. Bridge: {} .", bridge.getUID());
+            return null;
+        }
+    }
 }

@@ -12,6 +12,17 @@
  */
 package handler;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.binding.yandexweather.internal.YandexWeatherConfiguration;
@@ -25,14 +36,6 @@ import org.openhab.core.types.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 /**
  * The {@link YandexWeatherBridgeHandler} is responsible for Bridge to Yandex API
  *
@@ -45,11 +48,13 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
     private @Nullable YandexWeatherConfiguration bridgeConfig;
     private @Nullable YandexWeatherJsonParser parser;
     protected long lastRefresh = 0;
+
     public YandexWeatherBridgeHandler(Bridge bridge) {
         super(bridge);
     }
 
-    @Override public void initialize() {
+    @Override
+    public void initialize() {
         bridgeConfig = getConfigAs(YandexWeatherConfiguration.class);
         updateStatus(ThingStatus.UNKNOWN);
         ScheduledFuture<?> refreshPollingJob = this.refreshPollingJob;
@@ -62,7 +67,16 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }
         this.refreshPollingJob = refreshPollingJob;
-
+        try {
+            ClassLoader loader = getClass().getClassLoader();
+            @Nullable
+            URL resource = loader.getResource("api.json");
+            if (resource != null) {
+                parser = new YandexWeatherJsonParser(new File(resource.toURI()).toString());
+                logger.debug(parser.toString());
+            }
+        } catch (URISyntaxException e) {
+        }
         scheduler.execute(() -> {
             boolean thingReachable = true; // <background task with long running initialization here>
             // when done do:
@@ -78,9 +92,9 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
     private void refresh() {
         YandexWeatherConfiguration bridgeConfig = this.bridgeConfig;
         long now = System.currentTimeMillis();
-        if(bridgeConfig != null) {
+        if (bridgeConfig != null) {
             if (bridgeConfig.refreshInterval != 0) {
-                if (now >= (lastRefresh + bridgeConfig.refreshInterval )) {
+                if (now >= (lastRefresh + bridgeConfig.refreshInterval)) {
                     String URL = "http://localhost/sec/?" + bridgeConfig.location;
                     try {
                         java.net.URL urlreq = new URL(URL);
@@ -100,13 +114,7 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
                         }
                         in.close();
                         logger.debug("input string from {} -> {}", URL, response.toString());
-                        //parser = new YandexWeatherJsonParser(response.toString().trim());
-                        try {
-                        URL resource = getClass().getClassLoader().getResource("api.json");
-                            parser = new YandexWeatherJsonParser(new File(resource.toURI()).toString());
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();
-                        }
+                        // parser = new YandexWeatherJsonParser(response.toString().trim());
                         con.disconnect();
                     } catch (IOException e) {
                         logger.error("Connect to Yandex API {} error: {}", URL, e.getLocalizedMessage());
@@ -114,13 +122,14 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
                 }
             }
         }
-
-    }
-    @Override public void handleCommand(ChannelUID channelUID, Command command) {
-
     }
 
-    @Override public Collection<Class<? extends ThingHandlerService>> getServices() {
+    @Override
+    public void handleCommand(ChannelUID channelUID, Command command) {
+    }
+
+    @Override
+    public Collection<Class<? extends ThingHandlerService>> getServices() {
         return super.getServices();
     }
 

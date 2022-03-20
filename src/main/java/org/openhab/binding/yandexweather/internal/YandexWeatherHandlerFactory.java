@@ -16,7 +16,6 @@ import static org.openhab.binding.yandexweather.internal.YandexWeatherBindingCon
 
 import java.util.Set;
 
-import handler.YandexWeatherBridgeHandler;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.thing.Bridge;
@@ -26,10 +25,11 @@ import org.openhab.core.thing.binding.BaseThingHandlerFactory;
 import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.binding.ThingHandlerFactory;
 import org.osgi.service.component.annotations.Component;
-
-import handler.YandexWeatherHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import handler.YandexWeatherBridgeHandler;
+import handler.YandexWeatherHandler;
 
 /**
  * The {@link YandexWeatherHandlerFactory} is responsible for creating things and thing
@@ -41,7 +41,8 @@ import org.slf4j.LoggerFactory;
 @Component(configurationPid = "binding.yandexweather", service = ThingHandlerFactory.class)
 public class YandexWeatherHandlerFactory extends BaseThingHandlerFactory {
     private final Logger logger = LoggerFactory.getLogger(YandexWeatherHandlerFactory.class);
-    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_YANDEXWEATHER, THING_TYPE_API_BRIDGE);
+    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_YANDEXWEATHER,
+            THING_TYPE_API_BRIDGE);
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -59,6 +60,5 @@ public class YandexWeatherHandlerFactory extends BaseThingHandlerFactory {
         logger.error("createHandler for unknown thing type uid {}. Thing label was: {}", thing.getThingTypeUID(),
                 thing.getLabel());
         return null;
-
     }
 }
