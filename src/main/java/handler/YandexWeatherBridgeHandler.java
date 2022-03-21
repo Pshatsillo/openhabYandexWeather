@@ -13,11 +13,9 @@
 package handler;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.ScheduledFuture;
@@ -67,16 +65,6 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }
         this.refreshPollingJob = refreshPollingJob;
-        try {
-            ClassLoader loader = getClass().getClassLoader();
-            @Nullable
-            URL resource = loader.getResource("api.json");
-            if (resource != null) {
-                parser = new YandexWeatherJsonParser(new File(resource.toURI()).toString());
-                logger.debug(parser.toString());
-            }
-        } catch (URISyntaxException e) {
-        }
         scheduler.execute(() -> {
             boolean thingReachable = true; // <background task with long running initialization here>
             // when done do:
@@ -114,7 +102,7 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
                         }
                         in.close();
                         logger.debug("input string from {} -> {}", URL, response.toString());
-                        // parser = new YandexWeatherJsonParser(response.toString().trim());
+                        parser = new YandexWeatherJsonParser(response.toString().trim());
                         con.disconnect();
                     } catch (IOException e) {
                         logger.error("Connect to Yandex API {} error: {}", URL, e.getLocalizedMessage());

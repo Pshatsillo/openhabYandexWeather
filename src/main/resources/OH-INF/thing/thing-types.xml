@@ -11,7 +11,7 @@
 		</supported-bridge-type-refs>
 
 		<label>YandexWeather Binding Thing</label>
-		<description>Sample thing for YandexWeather Binding</description>
+		<description>Thing for YandexWeather Binding</description>
 
 		<channels>
 			<channel id="datetime" typeId="datetime-channel"/>
