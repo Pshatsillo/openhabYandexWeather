@@ -18,6 +18,8 @@ import java.util.Set;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.binding.yandexweather.handler.YandexWeatherBridgeHandler;
+import org.openhab.binding.yandexweather.handler.YandexWeatherHandler;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
@@ -28,9 +30,6 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import handler.YandexWeatherBridgeHandler;
-import handler.YandexWeatherHandler;
-
 /**
  * The {@link YandexWeatherHandlerFactory} is responsible for creating things and thing
  * handlers.
@@ -40,7 +39,7 @@ import handler.YandexWeatherHandler;
 @NonNullByDefault
 @Component(configurationPid = "binding.yandexweather", service = ThingHandlerFactory.class)
 public class YandexWeatherHandlerFactory extends BaseThingHandlerFactory {
-    private final Logger logger = LoggerFactory.getLogger(YandexWeatherHandlerFactory.class);
+    Logger logger = LoggerFactory.getLogger(YandexWeatherHandlerFactory.class);
     private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_YANDEXWEATHER,
             THING_TYPE_API_BRIDGE);
 
