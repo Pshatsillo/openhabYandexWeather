@@ -148,12 +148,16 @@ public class YandexWeatherHandler extends BaseThingHandler {
                         DecimalType feelslike = new DecimalType();
                         String group = channel.getUID().getGroupId();
                         if (group != null) {
-                            if (group.equals("current")) {
-                                feelslike = DecimalType.valueOf(parser.getFactFeelsLike());
-                            } else if (group.equals("forecastNext")) {
-                                feelslike = DecimalType.valueOf(parser.getForecastNextFeelsLike());
-                            } else if (group.equals("forecastFuture")) {
-                                feelslike = DecimalType.valueOf(parser.getForecastFutureFeelsLike());
+                            switch (group) {
+                                case "current":
+                                    feelslike = DecimalType.valueOf(parser.getFactFeelsLike());
+                                    break;
+                                case "forecastNext":
+                                    feelslike = DecimalType.valueOf(parser.getForecastNextFeelsLike());
+                                    break;
+                                case "forecastFuture":
+                                    feelslike = DecimalType.valueOf(parser.getForecastFutureFeelsLike());
+                                    break;
                             }
                             updateState(channel.getUID().getId(), feelslike);
                         }
