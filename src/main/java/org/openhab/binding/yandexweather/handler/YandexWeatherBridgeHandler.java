@@ -47,7 +47,7 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
     Logger logger = LoggerFactory.getLogger(YandexWeatherBridgeHandler.class);
     private @Nullable ScheduledFuture<?> refreshPollingJob;
     private @Nullable YandexWeatherConfiguration bridgeConfig;
-    private @Nullable final Map<String, YandexWeatherHandler> locationsHandlerMap = new HashMap<>();
+    private @Nullable Map<String, YandexWeatherHandler> locationsHandlerMap = new HashMap<>();
     protected long lastRefresh = 0;
 
     public YandexWeatherBridgeHandler(Bridge bridge) {
@@ -78,9 +78,8 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
             final Map<String, YandexWeatherHandler> locationsHandlerMap = this.locationsHandlerMap;
             if (locationsHandlerMap != null && !(locationsHandlerMap.isEmpty())) {
                 if (bridgeConfig.refreshInterval != 0) {
-                    int refreshPerHour = (1440 * 1000)
-                            / ((bridgeConfig.refreshInterval / locationsHandlerMap.size()) * 1000);
-                    if (now >= (lastRefresh + (refreshPerHour * 1000))) {
+                    int refreshPerHour = 86400000 / (bridgeConfig.refreshInterval / locationsHandlerMap.size());
+                    if (now >= (lastRefresh + refreshPerHour)) {
                         locationsHandlerMap.forEach((k, v) -> {
                             String[] location = v.getThing().getConfiguration().get("location").toString().split(",");
                             if (location.length == 2) {
@@ -146,20 +145,28 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
 
     public void registerYandexWeatherListener(YandexWeatherHandler yandexWeatherHandler) {
         String location = yandexWeatherHandler.getThing().getConfiguration().get("location").toString();
-        if (locationsHandlerMap.get(location) != null) {
-            updateThingHandlerStatus(yandexWeatherHandler, ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
-                    "Location");
-        } else {
-            locationsHandlerMap.put(location, yandexWeatherHandler);
-            updateThingHandlerStatus(yandexWeatherHandler, ThingStatus.ONLINE);
+        Map<String, YandexWeatherHandler> locationsHandlerMap = this.locationsHandlerMap;
+        if (locationsHandlerMap != null) {
+            if (locationsHandlerMap.get(location) != null) {
+                updateThingHandlerStatus(yandexWeatherHandler, ThingStatus.OFFLINE,
+                        ThingStatusDetail.CONFIGURATION_ERROR, "Location");
+            } else {
+                locationsHandlerMap.put(location, yandexWeatherHandler);
+                updateThingHandlerStatus(yandexWeatherHandler, ThingStatus.ONLINE);
+            }
+            this.locationsHandlerMap = locationsHandlerMap;
         }
     }
 
     public void unregisterYandexWeatherListener(YandexWeatherHandler yandexWeatherHandler) {
         String location = yandexWeatherHandler.getThing().getConfiguration().get("location").toString();
-        if (locationsHandlerMap.get(location) != null) {
-            locationsHandlerMap.remove(location);
-            updateThingHandlerStatus(yandexWeatherHandler, ThingStatus.OFFLINE);
+        Map<String, YandexWeatherHandler> locationsHandlerMap = this.locationsHandlerMap;
+        if (locationsHandlerMap != null) {
+            if (locationsHandlerMap.get(location) != null) {
+                locationsHandlerMap.remove(location);
+                updateThingHandlerStatus(yandexWeatherHandler, ThingStatus.OFFLINE);
+            }
+            this.locationsHandlerMap = locationsHandlerMap;
         }
     }
 

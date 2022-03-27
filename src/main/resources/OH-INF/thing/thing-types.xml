@@ -5,211 +5,23 @@
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
 	<thing-type id="yandexweather">
-
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge"/>
 		</supported-bridge-type-refs>
-
 		<label>YandexWeather Binding Thing</label>
 		<description>Thing for YandexWeather Binding</description>
-
-		<channels>
-			<channel id="datetime" typeId="datetime-channel"/>
-			<channel id="locality" typeId="locality-channel"/>
-			<channel id="facttemperature" typeId="facttemperature-channel"/>
-			<channel id="feelslike" typeId="feelslike-channel"/>
-			<channel id="icon" typeId="icon-channel"/>
-			<channel id="iconurl" typeId="iconurl-channel"/>
-			<channel id="factcondition" typeId="factcondition-channel"/>
-			<channel id="factcloudness" typeId="factcloudness-channel"/>
-			<channel id="factisthunder" typeId="factisthunder-channel"/>
-			<channel id="factwindspeed" typeId="factwindspeed-channel"/>
-			<channel id="factwinddir" typeId="factwinddir-channel"/>
-			<channel id="factpressuremm" typeId="factpressuremm-channel"/>
-			<channel id="facthumidity" typeId="facthumidity-channel"/>
-			<channel id="factdaytime" typeId="factdaytime-channel"/>
-			<channel id="factseason" typeId="factseason-channel"/>
-			<channel id="factsoilmoisture" typeId="factsoilmoisture-channel"/>
-			<channel id="factsoiltemp" typeId="factsoiltemp-channel"/>
-			<channel id="factuvindex" typeId="factuvindex-channel"/>
-			<channel id="factwindgust" typeId="factwindgust-channel"/>
-			<channel id="forecastweekno" typeId="forecastweekno-channel"/>
-			<channel id="forecastsunrise" typeId="forecastsunrise-channel"/>
-			<channel id="forecastsunset" typeId="forecastsunset-channel"/>
-			<channel id="forecastrisebegin" typeId="forecastrisebegin-channel"/>
-			<channel id="forecastsetend" typeId="forecastsetend-channel"/>
-			<channel id="forecastmooncode" typeId="forecastmooncode-channel"/>
-			<channel id="forecastmagneticfieldindex" typeId="forecastmagneticfieldindex-channel"/>
-		</channels>
-
-		<config-description>
-			<parameter name="location" type="text" required="true">
-				<context>location</context>
-				<label>Location</label>
-				<description>Location</description>
-			</parameter>
-		</config-description>
+		<channel-groups>
+			<channel-group id="current" typeId="weather"/>
+			<channel-group id="forecastNext" typeId="forecast">
+				<label>Next period forecast</label>
+				<description>This is the weather forecast for the next period.</description>
+			</channel-group>
+			<channel-group id="forecastFuture" typeId="forecast">
+				<label>Future period Forecast</label>
+				<description>This is the weather forecast after next.</description>
+			</channel-group>
+		</channel-groups>
+		<config-description-ref uri="thing-type:yandexweather:weather-and-forecast"/>
 	</thing-type>
 
-	<channel-type id="datetime-channel">
-		<item-type>DateTime</item-type>
-		<label>Last request Time</label>
-		<description>Time of data request.</description>
-		<category>Time</category>
-		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
-	</channel-type>
-
-	<channel-type id="locality-channel">
-		<item-type>String</item-type>
-		<label>Location</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="facttemperature-channel">
-		<item-type>Number:Temperature</item-type>
-		<label>Fact temperature</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="feelslike-channel">
-		<item-type>Number:Temperature</item-type>
-		<label>Feels like temperature</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="icon-channel">
-		<item-type>Image</item-type>
-		<label>Icon</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="iconurl-channel">
-		<item-type>String</item-type>
-		<label>Icon</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factcondition-channel">
-		<item-type>String</item-type>
-		<label>Condition</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factcloudness-channel">
-		<item-type>Number</item-type>
-		<label>Cloudness</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factisthunder-channel">
-		<item-type>String</item-type>
-		<label>Is thunder</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factwindspeed-channel">
-		<item-type>Number</item-type>
-		<label>Wind speed</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factwinddir-channel">
-		<item-type>String</item-type>
-		<label>Wind direction</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factpressuremm-channel">
-		<item-type>Number</item-type>
-		<label>Pressure in mm</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="facthumidity-channel">
-		<item-type>Number</item-type>
-		<label>Humidity</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factdaytime-channel">
-		<item-type>String</item-type>
-		<label>Daytime</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factseason-channel">
-		<item-type>String</item-type>
-		<label>Season</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factsoilmoisture-channel">
-		<item-type>Number</item-type>
-		<label>Soil moisture</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factsoiltemp-channel">
-		<item-type>Number:Temperature</item-type>
-		<label>Soil temp</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factuvindex-channel">
-		<item-type>Number</item-type>
-		<label>UV Index</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="factwindgust-channel">
-		<item-type>Number</item-type>
-		<label>Wind gust</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="forecastweekno-channel">
-		<item-type>Number</item-type>
-		<label>Week number</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="forecastsunrise-channel">
-		<item-type>DateTime</item-type>
-		<label>Sunrise</label>
-		<description>Location weather</description>
-		<state readOnly="true" pattern="%1$tH:%1$tM"/>
-	</channel-type>
-
-	<channel-type id="forecastsunset-channel">
-		<item-type>DateTime</item-type>
-		<label>Sunset</label>
-		<description>Location weather</description>
-		<state readOnly="true" pattern="%1$tH:%1$tM"/>
-	</channel-type>
-
-	<channel-type id="forecastrisebegin-channel">
-		<item-type>DateTime</item-type>
-		<label>Rise begin</label>
-		<description>Location weather</description>
-		<state readOnly="true" pattern="%1$tH:%1$tM"/>
-	</channel-type>
-
-	<channel-type id="forecastsetend-channel">
-		<item-type>DateTime</item-type>
-		<label>Set end</label>
-		<description>Location weather</description>
-		<state readOnly="true" pattern="%1$tH:%1$tM"/>
-	</channel-type>
-
-	<channel-type id="forecastmooncode-channel">
-		<item-type>Number</item-type>
-		<label>Mooncode</label>
-		<description>Location weather</description>
-	</channel-type>
-
-	<channel-type id="forecastmagneticfieldindex-channel">
-		<item-type>Number</item-type>
-		<label>Magnetic index</label>
-		<description>Location weather</description>
-	</channel-type>
 </thing:thing-descriptions>

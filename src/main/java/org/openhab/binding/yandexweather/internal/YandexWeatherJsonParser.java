@@ -27,7 +27,7 @@ import com.google.gson.JsonParser;
  */
 @NonNullByDefault
 public class YandexWeatherJsonParser {
-    Logger logger = LoggerFactory.getLogger(YandexWeatherJsonParser.class);
+    final Logger logger = LoggerFactory.getLogger(YandexWeatherJsonParser.class);
     private String dayTime = "";
     private String locality = "";
     private String factTemperature = "";
@@ -53,6 +53,39 @@ public class YandexWeatherJsonParser {
     private String forecastSetEnd = "";
     private String forecastMoonCode = "";
     private String forecastMagneticFieldIndex = "";
+    private String forecastNextFeelsLike = "";
+    private String forecastFutureFeelsLike = "";
+    private String forecastNextIcon = "";
+    private String forecastFutureIcon = "";
+    private String forecastNextCondition = "";
+    private String forecastFutureCondition = "";
+    private String forecastNextWindSpeed = "";
+    private String forecastFutureWindSpeed = "";
+    private String forecastNextWindDir = "";
+    private String forecastFutureWindDir = "";
+    private String forecastNextPressureMM = "";
+    private String forecastFuturePressureMM = "";
+    private String forecastNextHumidity = "";
+    private String forecastFutureHumidity = "";
+    private String forecastNextWindGust = "";
+    private String forecastFutureWindGust = "";
+    private String forecastFutureDaytime = "";
+    private String forecastNextDaytime = "";
+    // todo
+    private String partNameNext = "";
+    private String partNameFuture = "";
+    private String tempMinNext = "";
+    private String tempMinFuture = "";
+    private String tempAvgNext = "";
+    private String tempAvgFuture = "";
+    private String tempMaxNext = "";
+    private String tempMaxFuture = "";
+    private String forecastNextPrecMM = "";
+    private String forecastFuturePrecMM = "";
+    private String forecastNextPrecProb = "";
+    private String forecastFuturePrecProb = "";
+    private String forecastNextPrecPeriod = "";
+    private String forecastFuturePrecPeriod = "";
 
     public YandexWeatherJsonParser(String response) {
         try {
@@ -111,6 +144,88 @@ public class YandexWeatherJsonParser {
                 forecastMagneticFieldIndex = jsonobj.get("forecasts").getAsJsonArray().get(0).getAsJsonObject()
                         .get("biomet").getAsJsonObject().get("index").getAsString();
             }
+
+            partNameNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("part_name").getAsString();
+            partNameFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("part_name").getAsString();
+
+            tempMinNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("temp_min").getAsString();
+            tempMinFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("temp_min").getAsString();
+
+            tempAvgNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("temp_avg").getAsString();
+            tempAvgFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("temp_avg").getAsString();
+
+            tempMaxNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("temp_max").getAsString();
+            tempMaxFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("temp_max").getAsString();
+
+            forecastNextWindSpeed = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("wind_speed").getAsString();
+            forecastFutureWindSpeed = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("wind_speed").getAsString();
+
+            forecastNextWindGust = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("wind_gust").getAsString();
+            forecastFutureWindGust = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("wind_gust").getAsString();
+
+            forecastNextWindDir = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("wind_dir").getAsString();
+            forecastFutureWindDir = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("wind_dir").getAsString();
+
+            forecastNextPressureMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("pressure_mm").getAsString();
+            forecastFuturePressureMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("pressure_mm").getAsString();
+
+            forecastNextHumidity = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("humidity").getAsString();
+            forecastFutureHumidity = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("humidity").getAsString();
+            forecastNextPrecMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("prec_mm").getAsString();
+            forecastFuturePrecMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("prec_mm").getAsString();
+
+            forecastNextPrecProb = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("prec_prob").getAsString();
+            forecastFuturePrecProb = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("prec_prob").getAsString();
+
+            forecastNextPrecPeriod = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("prec_period").getAsString();
+            forecastFuturePrecPeriod = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("prec_period").getAsString();
+
+            forecastNextIcon = "https://yastatic.net/weather/i/icons/funky/dark/" + jsonobj.get("forecast")
+                    .getAsJsonObject().get("parts").getAsJsonArray().get(0).getAsJsonObject().get("icon").getAsString()
+                    + ".svg";
+            forecastFutureIcon = "https://yastatic.net/weather/i/icons/funky/dark/" + jsonobj.get("forecast")
+                    .getAsJsonObject().get("parts").getAsJsonArray().get(1).getAsJsonObject().get("icon").getAsString()
+                    + ".svg";
+
+            forecastNextCondition = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("condition").getAsString();
+            forecastFutureCondition = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("condition").getAsString();
+
+            forecastNextFeelsLike = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("feels_like").getAsString();
+            forecastFutureFeelsLike = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("feels_like").getAsString();
+
+            forecastNextDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                    .getAsJsonObject().get("daytime").getAsString();
+            forecastFutureDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                    .getAsJsonObject().get("daytime").getAsString();
+
         } catch (Exception ex) {
             logger.error("Parse error {}", ex.toString());
         }
@@ -219,5 +334,133 @@ public class YandexWeatherJsonParser {
     @Override
     public String toString() {
         return "OK";
+    }
+
+    public String getForecastNextFeelsLike() {
+        return forecastNextFeelsLike;
+    }
+
+    public String getForecastFutureFeelsLike() {
+        return forecastFutureFeelsLike;
+    }
+
+    public String getForecastNextIcon() {
+        return forecastNextIcon;
+    }
+
+    public String getForecastFutureIcon() {
+        return forecastFutureIcon;
+    }
+
+    public String getForecastNextCondition() {
+        return forecastNextCondition;
+    }
+
+    public String getForecastFutureCondition() {
+        return forecastFutureCondition;
+    }
+
+    public String getForecastNextWindSpeed() {
+        return forecastNextWindSpeed;
+    }
+
+    public String getForecastFutureWindSpeed() {
+        return forecastFutureWindSpeed;
+    }
+
+    public String getForecastNextWindDir() {
+        return forecastNextWindDir;
+    }
+
+    public String getForecastFutureWindDir() {
+        return forecastFutureWindDir;
+    }
+
+    public String getForecastNextPressureMM() {
+        return forecastNextPressureMM;
+    }
+
+    public String getForecastFuturePressureMM() {
+        return forecastFuturePressureMM;
+    }
+
+    public String getForecastNextHumidity() {
+        return forecastNextHumidity;
+    }
+
+    public String getForecastFutureHumidity() {
+        return forecastFutureHumidity;
+    }
+
+    public String getForecastNextWindGust() {
+        return forecastNextWindGust;
+    }
+
+    public String getForecastFutureWindGust() {
+        return forecastFutureWindGust;
+    }
+
+    public String getForecastNextDaytime() {
+        return forecastNextDaytime;
+    }
+
+    public String getForecastFutureDaytime() {
+        return forecastFutureDaytime;
+    }
+
+    public String getPartNameNext() {
+        return partNameNext;
+    }
+
+    public String getPartNameFuture() {
+        return partNameFuture;
+    }
+
+    public String getTempMinNext() {
+        return tempMinNext;
+    }
+
+    public String getTempMinFuture() {
+        return tempMinFuture;
+    }
+
+    public String getTempAvgNext() {
+        return tempAvgNext;
+    }
+
+    public String getTempAvgFuture() {
+        return tempAvgFuture;
+    }
+
+    public String getTempMaxNext() {
+        return tempMaxNext;
+    }
+
+    public String getTempMaxFuture() {
+        return tempMaxFuture;
+    }
+
+    public String getNextPrecMM() {
+        return forecastNextPrecMM;
+    }
+
+    public String getFuturePrecMM() {
+        return forecastFuturePrecMM;
+    }
+
+    public String getNextPrecProb() {
+        return forecastNextPrecProb;
+    }
+
+    public String getFuturePrecProb() {
+        return forecastFuturePrecProb;
+    }
+
+    public String getNextPrecPeriod() {
+        return forecastNextPrecPeriod;
+    }
+
+    public String getFuturePrecPeriod() {
+        return forecastFuturePrecPeriod;
     }
 }

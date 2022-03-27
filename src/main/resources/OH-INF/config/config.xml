@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config-description:config-descriptions
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:config-description="https://openhab.org/schemas/config-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/config-description/v1.0.0 https://openhab.org/schemas/config-description-1.0.0.xsd">
+
+	<config-description uri="thing-type:yandexweather:weather-and-forecast">
+		<parameter name="location" type="text" required="true">
+			<context>location</context>
+			<label>Location of Weather</label>
+			<description>Location of weather in geographical coordinates (latitude/longitude).</description>
+		</parameter>
+	</config-description>
+
+	<config-description uri="bridge-type:yandexweather:bridge">
+		<parameter name="api" type="text" required="true">
+			<label>API</label>
+			<description>Api string from https://developer.tech.yandex.ru/services</description>
+		</parameter>
+		<parameter name="refreshInterval" type="integer" unit="s" min="1">
+			<label>Refresh counts</label>
+			<description>Count of requests per day</description>
+			<default>50</default>
+			<advanced>true</advanced>
+		</parameter>
+	</config-description>
+
+</config-description:config-descriptions>

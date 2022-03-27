@@ -39,9 +39,8 @@ import org.slf4j.LoggerFactory;
 @NonNullByDefault
 @Component(configurationPid = "binding.yandexweather", service = ThingHandlerFactory.class)
 public class YandexWeatherHandlerFactory extends BaseThingHandlerFactory {
-    Logger logger = LoggerFactory.getLogger(YandexWeatherHandlerFactory.class);
-    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_YANDEXWEATHER,
-            THING_TYPE_API_BRIDGE);
+    final Logger logger = LoggerFactory.getLogger(YandexWeatherHandlerFactory.class);
+    static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_YANDEXWEATHER, THING_TYPE_API_BRIDGE);
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="yandexweather"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<channel-group-type id="weather">
+		<label>Current Weather</label>
+		<description>This is the current weather.</description>
+		<channels>
+			<channel id="datetime" typeId="datetime-channel"/>
+			<channel id="temperature" typeId="temperature-channel"/>
+			<channel id="feelslike" typeId="feelslike-channel"/>
+			<channel id="icon" typeId="icon-channel"/>
+			<channel id="iconurl" typeId="iconurl-channel"/>
+			<channel id="condition" typeId="condition-channel"/>
+			<channel id="windspeed" typeId="windspeed-channel"/>
+			<channel id="winddir" typeId="winddir-channel"/>
+			<channel id="pressuremm" typeId="pressuremm-channel"/>
+			<channel id="humidity" typeId="humidity-channel"/>
+			<channel id="daytime" typeId="daytime-channel"/>
+			<channel id="season" typeId="season-channel"/>
+			<channel id="windgust" typeId="windgust-channel"/>
+			<channel id="weekno" typeId="weekno-channel"/>
+			<channel id="sunrise" typeId="sunrise-channel"/>
+			<channel id="sunset" typeId="sunset-channel"/>
+			<channel id="mooncode" typeId="mooncode-channel"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="forecast">
+		<label>Current Weather</label>
+		<description>This is the current weather.</description>
+		<channels>
+			<channel id="partname" typeId="partname-channel"/>
+			<channel id="tempmin" typeId="tempmin-channel"/>
+			<channel id="tempmax" typeId="tempmax-channel"/>
+			<channel id="tempavg" typeId="tempavg-channel"/>
+			<channel id="feelslike" typeId="feelslike-channel"/>
+			<channel id="icon" typeId="icon-channel"/>
+			<channel id="iconurl" typeId="iconurl-channel"/>
+			<channel id="condition" typeId="condition-channel"/>
+			<channel id="daytime" typeId="daytime-channel"/>
+			<channel id="windspeed" typeId="windspeed-channel"/>
+			<channel id="windgust" typeId="windgust-channel"/>
+			<channel id="winddir" typeId="winddir-channel"/>
+			<channel id="pressuremm" typeId="pressuremm-channel"/>
+			<channel id="humidity" typeId="humidity-channel"/>
+			<channel id="precmm" typeId="precmm-channel"/>
+			<channel id="precperiod" typeId="precperiod-channel"/>
+			<channel id="precprob" typeId="precprob-channel"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-type id="datetime-channel">
+		<item-type>DateTime</item-type>
+		<label>Last request Time</label>
+		<description>Time of data request.</description>
+		<category>Time</category>
+		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
+	<channel-type id="temperature-channel">
+		<item-type>Number:Temperature</item-type>
+		<label>Fact temperature</label>
+		<description>Location weather</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="feelslike-channel">
+		<item-type>Number:Temperature</item-type>
+		<label>Feels like temperature</label>
+		<description>Location weather</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="icon-channel">
+		<item-type>Image</item-type>
+		<label>Icon</label>
+		<description>Location weather</description>
+	</channel-type>
+
+	<channel-type id="iconurl-channel">
+		<item-type>String</item-type>
+		<label>Icon</label>
+		<description>Location weather</description>
+	</channel-type>
+
+	<channel-type id="condition-channel">
+		<item-type>String</item-type>
+		<label>Condition</label>
+		<description>Location weather</description>
+		<category>Sun_Clouds</category>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="windspeed-channel">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Wind speed</label>
+		<description>Wind speed</description>
+		<category>Wind</category>
+		<state readOnly="true" pattern="%.1f m/s"/>
+	</channel-type>
+
+	<channel-type id="winddir-channel">
+		<item-type>String</item-type>
+		<label>Wind direction</label>
+		<description>Location weather</description>
+		<category>Wind</category>
+		<state readOnly="true" pattern="%s"/>
+	</channel-type>
+
+	<channel-type id="pressuremm-channel">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Pressure in mm</label>
+		<description>Location weather</description>
+		<category>Pressure</category>
+		<state readOnly="true" pattern="%.3f mm"/>
+	</channel-type>
+
+	<channel-type id="humidity-channel">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Humidity</label>
+		<description>Location weather</description>
+		<category>Humidity</category>
+		<state readOnly="true" pattern="%.0f %%"/>
+	</channel-type>
+
+	<channel-type id="daytime-channel">
+		<item-type>String</item-type>
+		<label>Daytime</label>
+		<description>Location weather</description>
+	</channel-type>
+
+	<channel-type id="season-channel">
+		<item-type>String</item-type>
+		<label>Season</label>
+		<description>Location weather</description>
+	</channel-type>
+
+	<channel-type id="windgust-channel">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Wind gust</label>
+		<description>Location weather</description>
+		<category>Wind</category>
+		<state readOnly="true" pattern="%.1f m/s"/>
+	</channel-type>
+
+	<channel-type id="weekno-channel">
+		<item-type>Number</item-type>
+		<label>Week number</label>
+		<description>Location weather</description>
+	</channel-type>
+
+	<channel-type id="sunrise-channel">
+		<item-type>DateTime</item-type>
+		<label>Sunrise</label>
+		<description>Location weather</description>
+		<category>Time</category>
+		<state readOnly="true" pattern="%1$tH:%1$tM"/>
+	</channel-type>
+
+	<channel-type id="sunset-channel">
+		<item-type>DateTime</item-type>
+		<label>Sunset</label>
+		<description>Location weather</description>
+		<category>Time</category>
+		<state readOnly="true" pattern="%1$tH:%1$tM"/>
+	</channel-type>
+
+	<channel-type id="mooncode-channel">
+		<item-type>Number</item-type>
+		<label>Mooncode</label>
+		<description>Location weather</description>
+		<category>Moon</category>
+	</channel-type>
+
+	<!-- forecasts -->
+
+	<channel-type id="partname-channel">
+		<item-type>String</item-type>
+		<label>Part name</label>
+		<!-- <description>Location weather</description> -->
+		<!-- <category>Sun_Clouds</category> -->
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="tempmin-channel">
+		<item-type>Number:Temperature</item-type>
+		<label>Minimal temperature</label>
+		<!-- <description>Location weather</description> -->
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="tempmax-channel">
+		<item-type>Number:Temperature</item-type>
+		<label>Maximum temperature</label>
+		<!-- <description>Location weather</description> -->
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="tempavg-channel">
+		<item-type>Number:Temperature</item-type>
+		<label>Average temperature</label>
+		<!-- <description>Location weather</description> -->
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="precmm-channel">
+		<item-type>Number:Length</item-type>
+		<label>Precipitation</label>
+		<description>Precipitation volume of the related timespan.</description>
+		<category>Rain</category>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="precperiod-channel">
+		<item-type>Number</item-type>
+		<label>Precipitation period</label>
+		<description>Precipitation period of the related timespan.</description>
+		<category>Rain</category>
+		<state readOnly="true" pattern="%.2f mins"/>
+	</channel-type>
+
+	<channel-type id="precprob-channel">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Precipitation probability</label>
+		<description>Precipitation probability of the related timespan.</description>
+		<category>Rain</category>
+		<state readOnly="true" min="0" max="100" pattern="%d %unit%"/>
+	</channel-type>
+
+
+</thing:thing-descriptions>

@@ -24,7 +24,7 @@ import org.openhab.core.thing.ThingTypeUID;
 @NonNullByDefault
 public class YandexWeatherBindingConstants {
 
-    private static final String BINDING_ID = "yandexweather";
+    public static final String BINDING_ID = "yandexweather";
 
     // List of all Thing Type UIDs
     public static final ThingTypeUID THING_TYPE_API_BRIDGE = new ThingTypeUID(BINDING_ID, "bridge");
@@ -32,29 +32,29 @@ public class YandexWeatherBindingConstants {
 
     // List of all Channel ids
     public static final String CHANNEL_DATETIME = "datetime";
-    public static final String CHANNEL_LOCALITY = "locality";
-    public static final String CHANNEL_FACTTEMPERATURE = "facttemperature";
-    public static final String CHANNEL_FACTFEELSLIKE = "feelslike";
+    public static final String CHANNEL_TEMPERATURE = "temperature";
+    public static final String CHANNEL_FEELSLIKE = "feelslike";
     public static final String CHANNEL_ICON = "icon";
     public static final String CHANNEL_ICON_URL = "iconurl";
-    public static final String CHANNEL_FACTCONDITION = "factcondition";
-    public static final String CHANNEL_FACTCLOUDNESS = "factcloudness";
-    public static final String CHANNEL_FACTISTHUNDER = "factisthunder";
-    public static final String CHANNEL_FACTWINDSPEED = "factwindspeed";
-    public static final String CHANNEL_FACTWINDDIR = "factwinddir";
-    public static final String CHANNEL_FACTPRESSUREMM = "factpressuremm";
-    public static final String CHANNEL_FACTHUMIDITY = "facthumidity";
-    public static final String CHANNEL_FACTDAYTIME = "factdaytime";
-    public static final String CHANNEL_FACTSEASON = "factseason";
-    public static final String CHANNEL_FACTSOILMOISTURE = "factsoilmoisture";
-    public static final String CHANNEL_FACTSOILTEMP = "factsoiltemp";
-    public static final String CHANNEL_FACTUVINDEX = "factuvindex";
-    public static final String CHANNEL_FACTWINDGUST = "factwindgust";
-    public static final String CHANNEL_FORECASTWEEKNO = "forecastweekno";
-    public static final String CHANNEL_FORECASTSUNRISE = "forecastsunrise";
-    public static final String CHANNEL_FORECASTSUNSET = "forecastsunset";
-    public static final String CHANNEL_FORECASTRISEBEGIN = "forecastrisebegin";
-    public static final String CHANNEL_FORECASTSETEND = "forecastsetend";
-    public static final String CHANNEL_FORECASTMOONCODE = "forecastmooncode";
-    public static final String CHANNEL_FORECASTMAGNETICFIELDINDEX = "forecastmagneticfieldindex";
+    public static final String CHANNEL_CONDITION = "condition";
+    public static final String CHANNEL_WINDSPEED = "windspeed";
+    public static final String CHANNEL_WINDDIR = "winddir";
+    public static final String CHANNEL_PRESSUREMM = "pressuremm";
+    public static final String CHANNEL_HUMIDITY = "humidity";
+    public static final String CHANNEL_DAYTIME = "daytime";
+    public static final String CHANNEL_SEASON = "season";
+    public static final String CHANNEL_WINDGUST = "windgust";
+    public static final String CHANNEL_WEEKNO = "weekno";
+    public static final String CHANNEL_SUNRISE = "sunrise";
+    public static final String CHANNEL_SUNSET = "sunset";
+    public static final String CHANNEL_MOONCODE = "mooncode";
+
+    // forecast
+    public static final String CHANNEL_PARTNAME = "partname";
+    public static final String CHANNEL_TEMPMIN = "tempmin";
+    public static final String CHANNEL_TEMPMAX = "tempmax";
+    public static final String CHANNEL_TEMPAVG = "tempavg";
+    public static final String CHANNEL_PRECMM = "precmm";
+    public static final String CHANNEL_PRECPERIOD = "precperiod";
+    public static final String CHANNEL_PRECPROB = "precprob";
 }
