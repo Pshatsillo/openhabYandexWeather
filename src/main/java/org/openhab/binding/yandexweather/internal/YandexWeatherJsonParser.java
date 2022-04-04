@@ -71,7 +71,6 @@ public class YandexWeatherJsonParser {
     private String forecastFutureWindGust = "";
     private String forecastFutureDaytime = "";
     private String forecastNextDaytime = "";
-    // todo
     private String partNameNext = "";
     private String partNameFuture = "";
     private String tempMinNext = "";
@@ -86,6 +85,9 @@ public class YandexWeatherJsonParser {
     private String forecastFuturePrecProb = "";
     private String forecastNextPrecPeriod = "";
     private String forecastFuturePrecPeriod = "";
+    private String futureTempWater = "";
+    private String forecastTempWater = "";
+    private String factTempWater = "";
 
     public YandexWeatherJsonParser(String response) {
         try {
@@ -225,6 +227,19 @@ public class YandexWeatherJsonParser {
                     .getAsJsonObject().get("daytime").getAsString();
             forecastFutureDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
                     .getAsJsonObject().get("daytime").getAsString();
+            if (jsonobj.get("fact").getAsJsonObject().has("temp_water")) {
+                factTempWater = jsonobj.get("fact").getAsJsonObject().get("temp_water").getAsString();
+            }
+            if (jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0).getAsJsonObject()
+                    .has("temp_water")) {
+                forecastTempWater = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("temp_water").getAsString();
+            }
+            if (jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1).getAsJsonObject()
+                    .has("temp_water")) {
+                futureTempWater = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("temp_water").getAsString();
+            }
 
         } catch (Exception ex) {
             logger.error("Parse error {}", ex.toString());
@@ -462,5 +477,20 @@ public class YandexWeatherJsonParser {
 
     public String getFuturePrecPeriod() {
         return forecastFuturePrecPeriod;
+    }
+
+    public String getFactTempWater() {
+
+        return factTempWater;
+    }
+
+    public String getForecastNextTempWater() {
+
+        return forecastTempWater;
+    }
+
+    public String getForecastFutureTempWater() {
+
+        return futureTempWater;
     }
 }

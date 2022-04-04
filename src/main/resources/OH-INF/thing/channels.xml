@@ -11,6 +11,7 @@
 			<channel id="datetime" typeId="datetime-channel"/>
 			<channel id="temperature" typeId="temperature-channel"/>
 			<channel id="feelslike" typeId="feelslike-channel"/>
+			<channel id="tempwater" typeId="tempwater-channel"/>
 			<channel id="icon" typeId="icon-channel"/>
 			<channel id="iconurl" typeId="iconurl-channel"/>
 			<channel id="condition" typeId="condition-channel"/>
@@ -37,6 +38,7 @@
 			<channel id="tempmax" typeId="tempmax-channel"/>
 			<channel id="tempavg" typeId="tempavg-channel"/>
 			<channel id="feelslike" typeId="feelslike-channel"/>
+			<channel id="tempwater" typeId="tempwater-channel"/>
 			<channel id="icon" typeId="icon-channel"/>
 			<channel id="iconurl" typeId="iconurl-channel"/>
 			<channel id="condition" typeId="condition-channel"/>
@@ -72,6 +74,14 @@
 		<item-type>Number:Temperature</item-type>
 		<label>Feels like temperature</label>
 		<description>Location weather</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="tempwater-channel">
+		<item-type>Number:Temperature</item-type>
+		<label>Fact water temperature</label>
+		<description>Location water weather, if exist</description>
 		<category>Temperature</category>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>

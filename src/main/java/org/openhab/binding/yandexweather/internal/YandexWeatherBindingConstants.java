@@ -48,6 +48,7 @@ public class YandexWeatherBindingConstants {
     public static final String CHANNEL_SUNRISE = "sunrise";
     public static final String CHANNEL_SUNSET = "sunset";
     public static final String CHANNEL_MOONCODE = "mooncode";
+    public static final String CHANNEL_TEMPWATER = "tempwater";
 
     // forecast
     public static final String CHANNEL_PARTNAME = "partname";

@@ -36,6 +36,7 @@ import org.openhab.core.thing.ThingStatusDetail;
 import org.openhab.core.thing.binding.BaseThingHandler;
 import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.types.Command;
+import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,6 +164,33 @@ public class YandexWeatherHandler extends BaseThingHandler {
                         }
                     } catch (Exception er) {
                         logger.debug("CHANNEL_FACTFEELSLIKE channel update error {}", er.toString());
+                    }
+                } else if (channel.getUID().getIdWithoutGroup().equals(CHANNEL_TEMPWATER)) {
+                    try {
+                        String group = channel.getUID().getGroupId();
+                        if ((parser.getFactTempWater().equals("")) || (parser.getForecastNextTempWater().equals(""))
+                                || (parser.getForecastFutureTempWater().equals(""))) {
+                            updateState(channel.getUID().getId(), UnDefType.NULL);
+                        } else {
+                            var tempwater = new DecimalType();
+                            if (group != null) {
+                                switch (group) {
+                                    case "current":
+                                        tempwater = DecimalType.valueOf(parser.getFactTempWater());
+                                        break;
+                                    case "forecastNext":
+                                        tempwater = DecimalType.valueOf(parser.getForecastNextTempWater());
+                                        break;
+                                    case "forecastFuture":
+                                        tempwater = DecimalType.valueOf(parser.getForecastFutureTempWater());
+                                        break;
+                                }
+                            }
+                            updateState(channel.getUID().getId(), tempwater);
+                        }
+
+                    } catch (Exception er) {
+                        logger.debug("CHANNEL_TEMPWATER channel update error {}", er.toString());
                     }
                 } else if (channel.getUID().getIdWithoutGroup().equals(CHANNEL_ICON)) {
                     try {
