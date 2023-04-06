@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -98,38 +98,42 @@ public class YandexWeatherJsonParser {
                 locality = jsonobj.get("geo_object").getAsJsonObject().get("locality").getAsJsonObject().get("name")
                         .getAsString();
             }
-            factTemperature = jsonobj.get("fact").getAsJsonObject().get("temp").getAsString();
-            factFeelsLike = jsonobj.get("fact").getAsJsonObject().get("feels_like").getAsString();
-            factIcon = "https://yastatic.net/weather/i/icons/funky/dark/"
-                    + jsonobj.get("fact").getAsJsonObject().get("icon").getAsString() + ".svg";
-            factCondition = jsonobj.get("fact").getAsJsonObject().get("condition").getAsString();
-            if (jsonobj.get("fact").getAsJsonObject().has("cloudness")) {
-                factCloudness = jsonobj.get("fact").getAsJsonObject().get("cloudness").getAsString();
+            if (jsonobj.has("fact")) {
+                factTemperature = jsonobj.get("fact").getAsJsonObject().get("temp").getAsString();
+                factFeelsLike = jsonobj.get("fact").getAsJsonObject().get("feels_like").getAsString();
+                factIcon = "https://yastatic.net/weather/i/icons/funky/dark/"
+                        + jsonobj.get("fact").getAsJsonObject().get("icon").getAsString() + ".svg";
+                factCondition = jsonobj.get("fact").getAsJsonObject().get("condition").getAsString();
+                if (jsonobj.get("fact").getAsJsonObject().has("cloudness")) {
+                    factCloudness = jsonobj.get("fact").getAsJsonObject().get("cloudness").getAsString();
+                }
+                if (jsonobj.get("fact").getAsJsonObject().has("is_thunder")) {
+                    factIsThunder = jsonobj.get("fact").getAsJsonObject().get("is_thunder").getAsString();
+                }
+                factWindSpeed = jsonobj.get("fact").getAsJsonObject().get("wind_speed").getAsString();
+                factWindDir = jsonobj.get("fact").getAsJsonObject().get("wind_dir").getAsString();
+                factPressureMM = jsonobj.get("fact").getAsJsonObject().get("pressure_mm").getAsString();
+                factHumidity = jsonobj.get("fact").getAsJsonObject().get("humidity").getAsString();
+                factDaytime = jsonobj.get("fact").getAsJsonObject().get("daytime").getAsString();
+                factSeason = jsonobj.get("fact").getAsJsonObject().get("season").getAsString();
+                if (jsonobj.get("fact").getAsJsonObject().has("soil_moisture")) {
+                    factSoilMoisture = jsonobj.get("fact").getAsJsonObject().get("soil_moisture").getAsString();
+                }
+                if (jsonobj.get("fact").getAsJsonObject().has("soil_temp")) {
+                    factSoilTemp = jsonobj.get("fact").getAsJsonObject().get("soil_temp").getAsString();
+                }
+                if (jsonobj.get("fact").getAsJsonObject().has("uv_index")) {
+                    factUvIndex = jsonobj.get("fact").getAsJsonObject().get("uv_index").getAsString();
+                }
+                factWindGust = jsonobj.get("fact").getAsJsonObject().get("wind_gust").getAsString();
             }
-            if (jsonobj.get("fact").getAsJsonObject().has("is_thunder")) {
-                factIsThunder = jsonobj.get("fact").getAsJsonObject().get("is_thunder").getAsString();
-            }
-            factWindSpeed = jsonobj.get("fact").getAsJsonObject().get("wind_speed").getAsString();
-            factWindDir = jsonobj.get("fact").getAsJsonObject().get("wind_dir").getAsString();
-            factPressureMM = jsonobj.get("fact").getAsJsonObject().get("pressure_mm").getAsString();
-            factHumidity = jsonobj.get("fact").getAsJsonObject().get("humidity").getAsString();
-            factDaytime = jsonobj.get("fact").getAsJsonObject().get("daytime").getAsString();
-            factSeason = jsonobj.get("fact").getAsJsonObject().get("season").getAsString();
-            if (jsonobj.get("fact").getAsJsonObject().has("soil_moisture")) {
-                factSoilMoisture = jsonobj.get("fact").getAsJsonObject().get("soil_moisture").getAsString();
-            }
-            if (jsonobj.get("fact").getAsJsonObject().has("soil_temp")) {
-                factSoilTemp = jsonobj.get("fact").getAsJsonObject().get("soil_temp").getAsString();
-            }
-            if (jsonobj.get("fact").getAsJsonObject().has("uv_index")) {
-                factUvIndex = jsonobj.get("fact").getAsJsonObject().get("uv_index").getAsString();
-            }
-            factWindGust = jsonobj.get("fact").getAsJsonObject().get("wind_gust").getAsString();
             if (!jsonobj.has("forecasts")) {
-                forecastWeekNo = jsonobj.get("forecast").getAsJsonObject().get("week").getAsString();
-                forecastSunrise = jsonobj.get("forecast").getAsJsonObject().get("sunrise").getAsString();
-                forecastSunset = jsonobj.get("forecast").getAsJsonObject().get("sunset").getAsString();
-                forecastMoonCode = jsonobj.get("forecast").getAsJsonObject().get("moon_code").getAsString();
+                if (jsonobj.has("forecast")) {
+                    forecastWeekNo = jsonobj.get("forecast").getAsJsonObject().get("week").getAsString();
+                    forecastSunrise = jsonobj.get("forecast").getAsJsonObject().get("sunrise").getAsString();
+                    forecastSunset = jsonobj.get("forecast").getAsJsonObject().get("sunset").getAsString();
+                    forecastMoonCode = jsonobj.get("forecast").getAsJsonObject().get("moon_code").getAsString();
+                }
             } else {
                 forecastWeekNo = jsonobj.get("forecasts").getAsJsonArray().get(0).getAsJsonObject().get("week")
                         .getAsString();
@@ -146,103 +150,106 @@ public class YandexWeatherJsonParser {
                 forecastMagneticFieldIndex = jsonobj.get("forecasts").getAsJsonArray().get(0).getAsJsonObject()
                         .get("biomet").getAsJsonObject().get("index").getAsString();
             }
+            if (jsonobj.has("forecast")) {
+                partNameNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("part_name").getAsString();
+                partNameFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("part_name").getAsString();
 
-            partNameNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("part_name").getAsString();
-            partNameFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("part_name").getAsString();
+                tempMinNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("temp_min").getAsString();
+                tempMinFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("temp_min").getAsString();
 
-            tempMinNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("temp_min").getAsString();
-            tempMinFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("temp_min").getAsString();
+                tempAvgNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("temp_avg").getAsString();
+                tempAvgFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("temp_avg").getAsString();
 
-            tempAvgNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("temp_avg").getAsString();
-            tempAvgFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("temp_avg").getAsString();
+                tempMaxNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("temp_max").getAsString();
+                tempMaxFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("temp_max").getAsString();
 
-            tempMaxNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("temp_max").getAsString();
-            tempMaxFuture = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("temp_max").getAsString();
+                forecastNextWindSpeed = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("wind_speed").getAsString();
+                forecastFutureWindSpeed = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("wind_speed").getAsString();
 
-            forecastNextWindSpeed = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("wind_speed").getAsString();
-            forecastFutureWindSpeed = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("wind_speed").getAsString();
+                forecastNextWindGust = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("wind_gust").getAsString();
+                forecastFutureWindGust = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("wind_gust").getAsString();
 
-            forecastNextWindGust = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("wind_gust").getAsString();
-            forecastFutureWindGust = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("wind_gust").getAsString();
+                forecastNextWindDir = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("wind_dir").getAsString();
+                forecastFutureWindDir = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("wind_dir").getAsString();
 
-            forecastNextWindDir = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("wind_dir").getAsString();
-            forecastFutureWindDir = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("wind_dir").getAsString();
+                forecastNextPressureMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("pressure_mm").getAsString();
+                forecastFuturePressureMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray()
+                        .get(1).getAsJsonObject().get("pressure_mm").getAsString();
 
-            forecastNextPressureMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("pressure_mm").getAsString();
-            forecastFuturePressureMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("pressure_mm").getAsString();
+                forecastNextHumidity = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("humidity").getAsString();
+                forecastFutureHumidity = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("humidity").getAsString();
+                forecastNextPrecMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("prec_mm").getAsString();
+                forecastFuturePrecMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("prec_mm").getAsString();
 
-            forecastNextHumidity = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("humidity").getAsString();
-            forecastFutureHumidity = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("humidity").getAsString();
-            forecastNextPrecMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("prec_mm").getAsString();
-            forecastFuturePrecMM = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("prec_mm").getAsString();
+                forecastNextPrecProb = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("prec_prob").getAsString();
+                forecastFuturePrecProb = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("prec_prob").getAsString();
 
-            forecastNextPrecProb = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("prec_prob").getAsString();
-            forecastFuturePrecProb = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("prec_prob").getAsString();
+                forecastNextPrecPeriod = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("prec_period").getAsString();
+                forecastFuturePrecPeriod = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray()
+                        .get(1).getAsJsonObject().get("prec_period").getAsString();
 
-            forecastNextPrecPeriod = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("prec_period").getAsString();
-            forecastFuturePrecPeriod = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("prec_period").getAsString();
+                forecastNextIcon = "https://yastatic.net/weather/i/icons/funky/dark/"
+                        + jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                                .getAsJsonObject().get("icon").getAsString()
+                        + ".svg";
+                forecastFutureIcon = "https://yastatic.net/weather/i/icons/funky/dark/"
+                        + jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                                .getAsJsonObject().get("icon").getAsString()
+                        + ".svg";
 
-            forecastNextIcon = "https://yastatic.net/weather/i/icons/funky/dark/" + jsonobj.get("forecast")
-                    .getAsJsonObject().get("parts").getAsJsonArray().get(0).getAsJsonObject().get("icon").getAsString()
-                    + ".svg";
-            forecastFutureIcon = "https://yastatic.net/weather/i/icons/funky/dark/" + jsonobj.get("forecast")
-                    .getAsJsonObject().get("parts").getAsJsonArray().get(1).getAsJsonObject().get("icon").getAsString()
-                    + ".svg";
+                forecastNextCondition = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("condition").getAsString();
+                forecastFutureCondition = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("condition").getAsString();
 
-            forecastNextCondition = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("condition").getAsString();
-            forecastFutureCondition = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("condition").getAsString();
+                forecastNextFeelsLike = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("feels_like").getAsString();
+                forecastFutureFeelsLike = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("feels_like").getAsString();
 
-            forecastNextFeelsLike = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("feels_like").getAsString();
-            forecastFutureFeelsLike = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("feels_like").getAsString();
-
-            forecastNextDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("daytime").getAsString();
-            forecastFutureDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("daytime").getAsString();
-            if (jsonobj.get("fact").getAsJsonObject().has("temp_water")) {
-                factTempWater = jsonobj.get("fact").getAsJsonObject().get("temp_water").getAsString();
-            }
-            if (jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0).getAsJsonObject()
-                    .has("temp_water")) {
-                forecastTempWater = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
-                        .getAsJsonObject().get("temp_water").getAsString();
-            }
-            if (jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1).getAsJsonObject()
-                    .has("temp_water")) {
-                futureTempWater = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
-                        .getAsJsonObject().get("temp_water").getAsString();
+                forecastNextDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                        .getAsJsonObject().get("daytime").getAsString();
+                forecastFutureDaytime = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                        .getAsJsonObject().get("daytime").getAsString();
+                if (jsonobj.get("fact").getAsJsonObject().has("temp_water")) {
+                    factTempWater = jsonobj.get("fact").getAsJsonObject().get("temp_water").getAsString();
+                }
+                if (jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0).getAsJsonObject()
+                        .has("temp_water")) {
+                    forecastTempWater = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)
+                            .getAsJsonObject().get("temp_water").getAsString();
+                }
+                if (jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1).getAsJsonObject()
+                        .has("temp_water")) {
+                    futureTempWater = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(1)
+                            .getAsJsonObject().get("temp_water").getAsString();
+                }
             }
 
         } catch (Exception ex) {
-            logger.error("Parse error {}", ex.toString());
+            logger.info("Parse error {}", ex.getLocalizedMessage());
         }
     }
 
