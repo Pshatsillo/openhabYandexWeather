@@ -16,6 +16,7 @@ import static org.openhab.binding.yandexweather.internal.YandexWeatherBindingCon
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -209,7 +210,7 @@ public class YandexWeatherHandler extends BaseThingHandler {
                                     break;
                             }
                         }
-                        URL url = new URL(icon);
+                        URL url = URI.create(icon).toURL();
                         BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
 
                         StringBuilder stringBuilder = new StringBuilder();

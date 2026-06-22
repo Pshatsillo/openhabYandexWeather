@@ -489,17 +489,14 @@ public class YandexWeatherJsonParser {
     }
 
     public String getFactTempWater() {
-
         return factTempWater;
     }
 
     public String getForecastNextTempWater() {
-
         return forecastTempWater;
     }
 
     public String getForecastFutureTempWater() {
-
         return futureTempWater;
     }
 }

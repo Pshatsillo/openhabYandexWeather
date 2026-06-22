@@ -12,7 +12,7 @@
  */
 package org.openhab.binding.yandexweather.handler;
 
-import static org.openhab.binding.yandexweather.internal.YandexWeatherBindingConstants.BaseURL;
+import static org.openhab.binding.yandexweather.internal.YandexWeatherBindingConstants.BASE_URL;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,43 +91,24 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
                             if (location.length == 2) {
                                 String lat = location[0];
                                 String lon = location[1];
-                                String URL = BaseURL + "lat=" + lat + "&lon=" + lon;
+                                String url = BASE_URL + "lat=" + lat + "&lon=" + lon;
                                 try {
-                                    Request request = httpClient.newRequest(URL).method(HttpMethod.GET)
+                                    Request request = httpClient.newRequest(url).method(HttpMethod.GET)
                                             .timeout(2000, TimeUnit.MILLISECONDS).header("Accept", "application/json")
                                             .header("Content-Type", "application/json")
                                             .header("X-Yandex-API-Key", bridgeConfig.api);
                                     ContentResponse response = request.send();
-                                    // java.net.URL urlreq = new URL(URL);
-                                    // HttpURLConnection con;
-                                    // con = (HttpURLConnection) urlreq.openConnection();
-                                    // // logger.info("URL: {}", URL);
-                                    // con.setRequestMethod("GET");
-                                    // con.setReadTimeout(1500);
-                                    // con.setConnectTimeout(1500);
-                                    // con.setRequestProperty("Accept", "application/json");
-                                    // con.setRequestProperty("Content-Type", "application/json");
-                                    // con.setRequestProperty("X-Yandex-API-Key", bridgeConfig.api);
-                                    // BufferedReader in = new BufferedReader(new
-                                    // InputStreamReader(con.getInputStream()));
-                                    // String inputLine;
-                                    // StringBuilder response = new StringBuilder();
-                                    // while ((inputLine = in.readLine()) != null) {
-                                    // response.append(inputLine);
-                                    // }
-                                    // in.close();
                                     YandexWeatherJsonParser parser = new YandexWeatherJsonParser(
                                             response.getContentAsString().trim());
                                     v.updateValues(parser);
                                 } catch (ExecutionException | TimeoutException | InterruptedException e) {
-                                    logger.debug("Connect to Yandex API {} error: {}", URL, e.getLocalizedMessage());
+                                    logger.debug("Connect to Yandex API {} error: {}", url, e.getLocalizedMessage());
                                 }
                             }
                             lastRefresh = now;
                         });
                     }
                 }
-
             }
         }
     }

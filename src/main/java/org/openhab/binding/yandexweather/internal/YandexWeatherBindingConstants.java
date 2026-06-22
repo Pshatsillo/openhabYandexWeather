@@ -58,5 +58,5 @@ public class YandexWeatherBindingConstants {
     public static final String CHANNEL_PRECMM = "precmm";
     public static final String CHANNEL_PRECPERIOD = "precperiod";
     public static final String CHANNEL_PRECPROB = "precprob";
-    public static final String BaseURL = "https://api.weather.yandex.ru/v2/forecast?";
+    public static final String BASE_URL = "https://api.weather.yandex.ru/v2/forecast?";
 }
