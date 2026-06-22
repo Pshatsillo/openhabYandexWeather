@@ -30,8 +30,8 @@
 	</channel-group-type>
 
 	<channel-group-type id="forecast">
-		<label>Current Weather</label>
-		<description>This is the current weather.</description>
+		<label>Forecast Weather</label>
+		<description>This is the forecast weather.</description>
 		<channels>
 			<channel id="partname" typeId="partname-channel"/>
 			<channel id="tempmin" typeId="tempmin-channel"/>

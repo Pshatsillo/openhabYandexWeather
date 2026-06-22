@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2010-2024 Contributors to the openHAB project
+/*
+ * Copyright (c) 2010-2025 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -12,21 +12,25 @@
  */
 package org.openhab.binding.yandexweather.handler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import static org.openhab.binding.yandexweather.internal.YandexWeatherBindingConstants.BaseURL;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.client.api.Request;
+import org.eclipse.jetty.http.HttpMethod;
 import org.openhab.binding.yandexweather.internal.YandexWeatherConfiguration;
 import org.openhab.binding.yandexweather.internal.YandexWeatherJsonParser;
+import org.openhab.core.io.net.http.HttpClientFactory;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.ThingStatus;
@@ -49,9 +53,11 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
     private @Nullable YandexWeatherConfiguration bridgeConfig;
     private @Nullable Map<String, YandexWeatherHandler> locationsHandlerMap = new HashMap<>();
     protected long lastRefresh = 0;
+    HttpClient httpClient;
 
-    public YandexWeatherBridgeHandler(Bridge bridge) {
+    public YandexWeatherBridgeHandler(Bridge bridge, HttpClientFactory httpClientFactory) {
         super(bridge);
+        this.httpClient = httpClientFactory.getCommonHttpClient();
     }
 
     @Override
@@ -85,32 +91,35 @@ public class YandexWeatherBridgeHandler extends BaseBridgeHandler {
                             if (location.length == 2) {
                                 String lat = location[0];
                                 String lon = location[1];
-                                // String URL = "http://localhost/sec/?lat=" + lat + "&lon=" + lon;
-                                String URL = "https://api.weather.yandex.ru/v2/informers?lat=" + lat + "&lon=" + lon;
-                                // String URL = "https://api.weather.yandex.ru/v2/informers?lat=55.75396&lon=37.620393";
+                                String URL = BaseURL + "lat=" + lat + "&lon=" + lon;
                                 try {
-                                    java.net.URL urlreq = new URL(URL);
-                                    HttpURLConnection con;
-                                    con = (HttpURLConnection) urlreq.openConnection();
-                                    // logger.info("URL: {}", URL);
-                                    con.setRequestMethod("GET");
-                                    con.setReadTimeout(1500);
-                                    con.setConnectTimeout(1500);
-                                    con.setRequestProperty("Accept", "application/json");
-                                    con.setRequestProperty("Content-Type", "application/json");
-                                    con.setRequestProperty("X-Yandex-API-Key", bridgeConfig.api);
-                                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                                    String inputLine;
-                                    StringBuilder response = new StringBuilder();
-                                    while ((inputLine = in.readLine()) != null) {
-                                        response.append(inputLine);
-                                    }
-                                    in.close();
+                                    Request request = httpClient.newRequest(URL).method(HttpMethod.GET)
+                                            .timeout(2000, TimeUnit.MILLISECONDS).header("Accept", "application/json")
+                                            .header("Content-Type", "application/json")
+                                            .header("X-Yandex-API-Key", bridgeConfig.api);
+                                    ContentResponse response = request.send();
+                                    // java.net.URL urlreq = new URL(URL);
+                                    // HttpURLConnection con;
+                                    // con = (HttpURLConnection) urlreq.openConnection();
+                                    // // logger.info("URL: {}", URL);
+                                    // con.setRequestMethod("GET");
+                                    // con.setReadTimeout(1500);
+                                    // con.setConnectTimeout(1500);
+                                    // con.setRequestProperty("Accept", "application/json");
+                                    // con.setRequestProperty("Content-Type", "application/json");
+                                    // con.setRequestProperty("X-Yandex-API-Key", bridgeConfig.api);
+                                    // BufferedReader in = new BufferedReader(new
+                                    // InputStreamReader(con.getInputStream()));
+                                    // String inputLine;
+                                    // StringBuilder response = new StringBuilder();
+                                    // while ((inputLine = in.readLine()) != null) {
+                                    // response.append(inputLine);
+                                    // }
+                                    // in.close();
                                     YandexWeatherJsonParser parser = new YandexWeatherJsonParser(
-                                            response.toString().trim());
+                                            response.getContentAsString().trim());
                                     v.updateValues(parser);
-                                    con.disconnect();
-                                } catch (IOException e) {
+                                } catch (ExecutionException | TimeoutException | InterruptedException e) {
                                     logger.debug("Connect to Yandex API {} error: {}", URL, e.getLocalizedMessage());
                                 }
                             }

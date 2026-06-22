@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2010-2024 Contributors to the openHAB project
+/*
+ * Copyright (c) 2010-2025 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -112,7 +112,9 @@ public class YandexWeatherJsonParser {
                 }
                 factWindSpeed = jsonobj.get("fact").getAsJsonObject().get("wind_speed").getAsString();
                 factWindDir = jsonobj.get("fact").getAsJsonObject().get("wind_dir").getAsString();
-                factPressureMM = jsonobj.get("fact").getAsJsonObject().get("pressure_mm").getAsString();
+                if (jsonobj.get("fact").getAsJsonObject().has("pressure_mm")) {
+                    factPressureMM = jsonobj.get("fact").getAsJsonObject().get("pressure_mm").getAsString();
+                }
                 factHumidity = jsonobj.get("fact").getAsJsonObject().get("humidity").getAsString();
                 factDaytime = jsonobj.get("fact").getAsJsonObject().get("daytime").getAsString();
                 factSeason = jsonobj.get("fact").getAsJsonObject().get("season").getAsString();
@@ -147,8 +149,8 @@ public class YandexWeatherJsonParser {
                         .getAsString();
                 forecastMoonCode = jsonobj.get("forecasts").getAsJsonArray().get(0).getAsJsonObject().get("moon_code")
                         .getAsString();
-                forecastMagneticFieldIndex = jsonobj.get("forecasts").getAsJsonArray().get(0).getAsJsonObject()
-                        .get("biomet").getAsJsonObject().get("index").getAsString();
+                // forecastMagneticFieldIndex = jsonobj.get("forecasts").getAsJsonArray().get(0).getAsJsonObject()
+                // .get("biomet").getAsJsonObject().get("index").getAsString();
             }
             if (jsonobj.has("forecast")) {
                 partNameNext = jsonobj.get("forecast").getAsJsonObject().get("parts").getAsJsonArray().get(0)

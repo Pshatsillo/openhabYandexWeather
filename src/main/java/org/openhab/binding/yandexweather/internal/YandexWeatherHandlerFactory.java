@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2010-2024 Contributors to the openHAB project
+/*
+ * Copyright (c) 2010-2025 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -20,13 +20,16 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.binding.yandexweather.handler.YandexWeatherBridgeHandler;
 import org.openhab.binding.yandexweather.handler.YandexWeatherHandler;
+import org.openhab.core.io.net.http.HttpClientFactory;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
 import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.binding.ThingHandlerFactory;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +44,12 @@ import org.slf4j.LoggerFactory;
 public class YandexWeatherHandlerFactory extends BaseThingHandlerFactory {
     final Logger logger = LoggerFactory.getLogger(YandexWeatherHandlerFactory.class);
     static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_YANDEXWEATHER, THING_TYPE_API_BRIDGE);
+    private final HttpClientFactory httpClientFactory;
+
+    @Activate
+    public YandexWeatherHandlerFactory(@Reference HttpClientFactory httpClientFactory) {
+        this.httpClientFactory = httpClientFactory;
+    }
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -53,7 +62,7 @@ public class YandexWeatherHandlerFactory extends BaseThingHandlerFactory {
         if (THING_YANDEXWEATHER.equals(thingTypeUID)) {
             return new YandexWeatherHandler(thing);
         } else if (THING_TYPE_API_BRIDGE.equals(thingTypeUID)) {
-            return new YandexWeatherBridgeHandler((Bridge) thing);
+            return new YandexWeatherBridgeHandler((Bridge) thing, httpClientFactory);
         }
         logger.error("createHandler for unknown thing type uid {}. Thing label was: {}", thing.getThingTypeUID(),
                 thing.getLabel());
